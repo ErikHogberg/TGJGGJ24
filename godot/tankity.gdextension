@@ -1,0 +1,15 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.2
+
+[libraries]
+linux.debug.x86_64 =        "res://../rust/target/debug/libtankity.so"
+linux.release.x86_64 =      "res://../rust/target/release/libtankity.so"
+windows.debug.x86_64 =      "res://../rust/target/debug/tankity.dll"
+windows.release.x86_64 =    "res://../rust/target/release/tankity.dll"
+macos.debug =               "res://../rust/target/debug/libtankity.dylib"
+macos.release =             "res://../rust/target/release/libtankity.dylib"
+macos.debug.arm64 =         "res://../rust/target/debug/libtankity.dylib"
+macos.release.arm64 =       "res://../rust/target/release/libtankity.dylib"
+web.debug.wasm32 =          "res://../rust/target/wasm32-unknown-emscripten/debug/tankity.wasm"
+web.release.wasm32 =        "res://../rust/target/wasm32-unknown-emscripten/release/tankity.wasm"

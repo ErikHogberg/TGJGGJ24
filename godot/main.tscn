@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=23 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="Shader" uid="uid://b88uqnyohcr48" path="res://main.tres" id="2_0k8r8"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://hj4xggcoa2ku" path="res://gfx/gooseRoll/gooseRoll2.tres" id="7_qh44q"]
 [ext_resource type="Texture2D" uid="uid://c833gfqvq3x0l" path="res://gfx/gooseRoll/gooseRoll3.tres" id="8_bhh6b"]
 [ext_resource type="Texture2D" uid="uid://b5aowlt1p3klc" path="res://gfx/gooseRoll/gooseRoll4.tres" id="9_7a7an"]
+[ext_resource type="Texture2D" uid="uid://cp1g65ah5o0ih" path="res://gfx/gooseDive/gooseDive1.tres" id="11_sn50q"]
+[ext_resource type="Texture2D" uid="uid://c477rhxxb6w1t" path="res://Happy_mountains.bmp" id="12_gl7jy"]
 
 [sub_resource type="Animation" id="Animation_24ch3"]
 resource_name = "gooseFly"
@@ -70,6 +72,15 @@ _data = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tfvkg"]
 shader = ExtResource("2_0k8r8")
 
+[sub_resource type="GDScript" id="GDScript_w8t71"]
+script/source = "extends Node2D
+
+@export var speed: float = 99
+
+func _process(delta):
+	position += Vector2.LEFT * (delta * speed)
+"
+
 [sub_resource type="Gradient" id="Gradient_athk4"]
 offsets = PackedFloat32Array(0, 0.403614, 0.855422, 1)
 colors = PackedColorArray(0.411385, 0.296819, 0, 1, 0.361403, 0.443753, 0.000360596, 1, 0.390643, 0.302097, 0, 1, 0.464605, 0.258231, 0.196703, 1)
@@ -80,6 +91,23 @@ colors = PackedColorArray(0.411385, 0.296819, 0, 1, 0.361403, 0.443753, 0.000360
 height = 64
 color_ramp = SubResource("Gradient_athk4")
 noise = SubResource("FastNoiseLite_1igy8")
+
+[sub_resource type="GDScript" id="GDScript_2by4p"]
+script/source = "extends Sprite2D
+
+@export var tiling: int = 1
+
+func _process(delta):
+	var width = get_rect().size.x 
+	var halfWidth = width * 0.5
+	var x = global_position.x
+	var left = x - halfWidth
+	var right = x + halfWidth
+	if right < 0 :
+		global_position += Vector2.LEFT * (width * tiling)	
+		print(\"moved\")
+
+"
 
 [node name="Node2D" type="Node2D"]
 
@@ -99,11 +127,20 @@ autoplay = "gooseDive"
 texture_filter = 1
 material = SubResource("ShaderMaterial_tfvkg")
 position = Vector2(-1, -6)
-texture = ExtResource("7_qh44q")
+texture = ExtResource("11_sn50q")
 
 [node name="World" type="Node2D" parent="Node2D"]
+script = SubResource("GDScript_w8t71")
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/World"]
-position = Vector2(-113, 280)
-scale = Vector2(3.20313, 2.75342)
+[node name="Tile" type="Sprite2D" parent="Node2D/World"]
+z_index = -1
+position = Vector2(-96, 280)
+scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
+script = SubResource("GDScript_2by4p")
+
+[node name="HappyMountains2" type="Sprite2D" parent="Node2D/World/Tile"]
+z_index = -2
+position = Vector2(-2.67029e-05, -316.243)
+scale = Vector2(1, 1.13495)
+texture = ExtResource("12_gl7jy")

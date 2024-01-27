@@ -11,7 +11,6 @@ struct ActionIndicator {
     #[export]
     release_color: Color,
 
-    #[base]
     base: Base<ColorRect>,
 }
 

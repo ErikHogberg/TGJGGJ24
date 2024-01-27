@@ -17,7 +17,6 @@ struct Vec2Panel {
     #[export]
     line2: Color,
 
-    #[base]
     base: Base<Control>,
 }
 

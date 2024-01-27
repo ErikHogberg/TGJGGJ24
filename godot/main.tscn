@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=22 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="Shader" uid="uid://b88uqnyohcr48" path="res://main.tres" id="2_0k8r8"]
@@ -10,12 +10,12 @@
 [ext_resource type="Texture2D" uid="uid://hj4xggcoa2ku" path="res://gfx/gooseRoll/gooseRoll2.tres" id="7_qh44q"]
 [ext_resource type="Texture2D" uid="uid://c833gfqvq3x0l" path="res://gfx/gooseRoll/gooseRoll3.tres" id="8_bhh6b"]
 [ext_resource type="Texture2D" uid="uid://b5aowlt1p3klc" path="res://gfx/gooseRoll/gooseRoll4.tres" id="9_7a7an"]
-[ext_resource type="Texture2D" uid="uid://cp1g65ah5o0ih" path="res://gfx/gooseDive/gooseDive1.tres" id="11_sn50q"]
-[ext_resource type="Texture2D" uid="uid://c477rhxxb6w1t" path="res://Happy_mountains.bmp" id="12_gl7jy"]
+[ext_resource type="Texture2D" uid="uid://c477rhxxb6w1t" path="res://gfx/Happy_mountains.bmp" id="12_gl7jy"]
 
 [sub_resource type="Animation" id="Animation_24ch3"]
 resource_name = "gooseFly"
 length = 0.9
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -139,7 +139,7 @@ autoplay = "gooseDive"
 texture_filter = 1
 material = SubResource("ShaderMaterial_tfvkg")
 position = Vector2(-1, -6)
-texture = ExtResource("11_sn50q")
+texture = ExtResource("8_bhh6b")
 
 [node name="World" type="Node2D" parent="Node2D"]
 position = Vector2(877, 382)

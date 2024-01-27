@@ -29,7 +29,6 @@ pub(crate) struct Tank {
     speed_lerp: f32,
     speed_cache: f32,
 
-    #[base]
     base: Base<Generic6DofJoint3D>,
 }
 

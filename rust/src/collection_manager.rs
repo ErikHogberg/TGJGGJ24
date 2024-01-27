@@ -5,7 +5,7 @@ use godot::prelude::*;
 pub struct CollectionManager {
     registered: i32,
     collected: i32,
-    #[base]
+    
     base: Base<Object>,
 }
 

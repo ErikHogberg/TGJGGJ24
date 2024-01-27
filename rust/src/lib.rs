@@ -4,6 +4,7 @@ mod action_indicator;
 mod vec2_panel;
 mod collection_manager;
 mod collectable;
+mod goose;
 
 struct MyExtension;
 

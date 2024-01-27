@@ -28,7 +28,6 @@ struct Cam {
     #[export]
     turn_curve: Gd<Curve>,
 
-    #[base]
     base: Base<Node3D>,
 }
 

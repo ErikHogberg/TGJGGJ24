@@ -8,7 +8,7 @@ use crate::collection_manager::CollectionManager;
 struct Collectable {
     #[export]
     collection: GString,
-    #[base]
+    
     base: Base<Area3D>,
 }
 

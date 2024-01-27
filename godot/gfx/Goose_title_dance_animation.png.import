@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c477rhxxb6w1t"
-path="res://.godot/imported/Happy_mountains.bmp-bc0140cbc6da6c1dfc4b40e47b4be280.ctex"
+uid="uid://diga61vwuxio4"
+path="res://.godot/imported/Goose_title_dance_animation.png-d6ed156501c6b0d934fec5d8be32afa8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Happy_mountains.bmp"
-dest_files=["res://.godot/imported/Happy_mountains.bmp-bc0140cbc6da6c1dfc4b40e47b4be280.ctex"]
+source_file="res://gfx/Goose_title_dance_animation.png"
+dest_files=["res://.godot/imported/Goose_title_dance_animation.png-d6ed156501c6b0d934fec5d8be32afa8.ctex"]
 
 [params]
 

@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://c833gfqvq3x0l"]
+
+[ext_resource type="Texture2D" uid="uid://d0omnopw11rr3" path="res://gfx/gooseRoll/Goose_roll.bmp" id="1_8u65w"]
+
+[resource]
+atlas = ExtResource("1_8u65w")
+region = Rect2(284, 36, 152, 120)

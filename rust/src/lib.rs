@@ -1,10 +1,7 @@
 use godot::{prelude::*, engine::Engine};
 
-mod tank;
 mod action_indicator;
-mod cam;
 mod vec2_panel;
-mod rope;
 mod collection_manager;
 mod collectable;
 

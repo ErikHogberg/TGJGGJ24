@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://wqgqqujd2fav"]
+
+[ext_resource type="Texture2D" uid="uid://dhvdsnm3476dh" path="res://gfx/gooseFly/Goose_fly.bmp" id="1_yxwya"]
+
+[resource]
+atlas = ExtResource("1_yxwya")
+region = Rect2(4, 44, 156, 124)

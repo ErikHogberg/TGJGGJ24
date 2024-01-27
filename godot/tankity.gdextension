@@ -5,7 +5,7 @@ compatibility_minimum = 4.2
 [libraries]
 linux.debug.x86_64 =        "res://../rust/target/debug/libtankity.so"
 linux.release.x86_64 =      "res://../rust/target/release/libtankity.so"
-windows.debug.x86_64 =      "res://../tankity.dll"
+windows.debug.x86_64 =      "res://../rust/target/debug/tankity.dll"
 windows.release.x86_64 =    "res://../rust/target/release/tankity.dll"
 macos.debug =               "res://../rust/target/debug/libtankity.dylib"
 macos.release =             "res://../rust/target/release/libtankity.dylib"

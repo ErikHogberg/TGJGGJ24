@@ -359,6 +359,102 @@ hframes = 4
 vframes = 3
 frame = 1
 
+[node name="GooseTilesheet6" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(-204.88, 142.459)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+
+[node name="GooseTilesheet7" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(-102.4, 142.55)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+frame = 4
+
+[node name="GooseTilesheet8" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(-5.72205e-06, 142.55)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+
+[node name="GooseTilesheet9" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(102.4, 142.459)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+
+[node name="GooseTilesheet10" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(204.8, 142.459)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+
+[node name="GooseTilesheet11" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(-204.88, 258.678)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+frame = 2
+
+[node name="GooseTilesheet12" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(-102.4, 258.769)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+frame = 2
+
+[node name="GooseTilesheet13" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(-5.72205e-06, 258.769)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+frame = 2
+
+[node name="GooseTilesheet14" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(102.4, 258.678)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+frame = 3
+
+[node name="GooseTilesheet15" type="Sprite2D" parent="Node2D/World/Node2D/Tile"]
+z_index = 3
+texture_filter = 1
+position = Vector2(204.8, 258.678)
+scale = Vector2(3.205, 3.63752)
+texture = ExtResource("14_uatfs")
+hframes = 4
+vframes = 3
+frame = 2
+
 [node name="Tile2" type="Sprite2D" parent="Node2D/World/Node2D"]
 z_index = -1
 texture_filter = 1

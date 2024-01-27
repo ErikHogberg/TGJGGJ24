@@ -168,7 +168,8 @@ script/source = "extends Area2D
 
 func hit(asdf):
 	print(\"hit\")
-	$GooseSoundHit.play();
+	%Player.pause()
+	$GooseSoundHit.play()
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wu5l"]
@@ -247,6 +248,8 @@ groundOffset = 500.0
 ground_y = 500.0
 damping = Vector2(666, 99)
 shoot_vel = Vector2(6666, 333)
+velocity_cap = Vector2(9999, 9999)
+unique_name_in_owner = true
 position = Vector2(286, 363)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Player"]

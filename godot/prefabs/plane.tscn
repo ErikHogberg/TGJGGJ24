@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://b13cmr14kheg1"]
+
+[ext_resource type="Shader" uid="uid://b88uqnyohcr48" path="res://gfx/main.tres" id="1_k2oe0"]
+[ext_resource type="Texture2D" uid="uid://d2swo1me1q3ux" path="res://gfx/Plane.bmp" id="2_xyc77"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bmmkp"]
+shader = ExtResource("1_k2oe0")
+
+[node name="Plane" type="Sprite2D"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_bmmkp")
+position = Vector2(174.08, -557.852)
+scale = Vector2(0.96, 1.08955)
+texture = ExtResource("2_xyc77")

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c3veppqgtdc1h"
-path="res://.godot/imported/Stoppsnubbe.png-36e8c54a928cb816bb557ec776659f64.ctex"
+path="res://.godot/imported/Stoppsnubbe.png-c527742413a8a2eeb8b69d9d87ed23de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Stoppsnubbe.png"
-dest_files=["res://.godot/imported/Stoppsnubbe.png-36e8c54a928cb816bb557ec776659f64.ctex"]
+source_file="res://gfx/Stoppsnubbe.png"
+dest_files=["res://.godot/imported/Stoppsnubbe.png-c527742413a8a2eeb8b69d9d87ed23de.ctex"]
 
 [params]
 

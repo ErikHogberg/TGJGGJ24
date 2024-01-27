@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=28 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="Shader" uid="uid://b88uqnyohcr48" path="res://main.tres" id="2_0k8r8"]
@@ -110,6 +110,9 @@ _data = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tfvkg"]
 shader = ExtResource("2_0k8r8")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8y3ff"]
+radius = 91.9837
+
 [sub_resource type="GDScript" id="GDScript_w8t71"]
 script/source = "extends Node2D
 
@@ -158,6 +161,20 @@ script/source = "extends Node2D
 
 "
 
+[sub_resource type="GDScript" id="GDScript_jmw4m"]
+script/source = "extends Area2D
+
+
+func hit(asdf):
+	print(\"hit\")
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wu5l"]
+shader = ExtResource("2_0k8r8")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sjmup"]
+radius = 112.0
+
 [sub_resource type="GDScript" id="GDScript_3m4kv"]
 script/source = "extends Label
 #refference so we can grab world x position
@@ -198,19 +215,20 @@ func _process(delta):
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="Node2D" node_paths=PackedStringArray("Target")]
-position = Vector2(579, 328)
+position = Vector2(792, 328)
+zoom = Vector2(0.725, 0.725)
 script = SubResource("GDScript_xo3ya")
 Target = NodePath("../Player")
 ZoomCurve = SubResource("Curve_524lu")
 ZoomDistanceMinMax = Vector2(0, 333)
-ZoomMinMax = Vector2(1, 0.2)
+ZoomMinMax = Vector2(0.7, 0.2)
 ZoomXOffset = 999.0
 groundOffset = 500.0
 
 [node name="Player" type="Goose" parent="Node2D"]
 ground_y = 500.0
 damping = Vector2(666, 99)
-shoot_vel = Vector2(3333, 333)
+shoot_vel = Vector2(6666, 333)
 speed_curve = SubResource("Curve_q85g6")
 position = Vector2(286, 363)
 
@@ -226,6 +244,11 @@ texture_filter = 1
 material = SubResource("ShaderMaterial_tfvkg")
 position = Vector2(-1, -6)
 texture = ExtResource("5_3ejog")
+
+[node name="RigidBody2D" type="StaticBody2D" parent="Node2D/Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Player/RigidBody2D"]
+shape = SubResource("CircleShape2D_8y3ff")
 
 [node name="World" type="Node2D" parent="Node2D"]
 position = Vector2(877, 382)
@@ -247,6 +270,20 @@ start_tile = NodePath("")
 tiling = 2
 
 [node name="Tile" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
+
+[node name="Area2D" type="Area2D" parent="Node2D/World/Node2D/Tile"]
+position = Vector2(168.96, -55.2041)
+scale = Vector2(0.32, 0.363185)
+input_pickable = false
+script = SubResource("GDScript_jmw4m")
+
+[node name="Sitting Goose" type="Sprite2D" parent="Node2D/World/Node2D/Tile/Area2D"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_7wu5l")
+texture = ExtResource("5_3ejog")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/World/Node2D/Tile/Area2D"]
+shape = SubResource("CircleShape2D_sjmup")
 
 [node name="Tile2" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 tiling_offset = 1
@@ -274,3 +311,4 @@ script = SubResource("GDScript_3m4kv")
 ground = NodePath("../../Node2D/World")
 
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]
+[connection signal="body_entered" from="Node2D/World/Node2D/Tile/Area2D" to="Node2D/World/Node2D/Tile/Area2D" method="hit"]

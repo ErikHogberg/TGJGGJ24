@@ -19,6 +19,7 @@ struct Goose {
     velocity_cap: Vector2,
 
     paused: bool,
+    stamina: i32,
 
     hit_ground_once: bool,
 
@@ -38,6 +39,12 @@ impl Goose {
     fn on_shoot();
     #[signal]
     fn on_hit_ground();
+    #[signal]
+    fn on_consume_one_stamina_and_flap();
+    #[signal]
+    fn on_cannot_flap();
+    #[signal]
+    fn on_fill_stamina_and_bounce();
 }
 
 impl Goose {
@@ -58,6 +65,7 @@ impl INode2D for Goose {
             velocity_cap: Vector2::ZERO,
             hit_ground_once: false,
             paused: false,
+            stamina: 12,
             base,
         }
     }
@@ -66,15 +74,30 @@ impl INode2D for Goose {
         let input = Input::singleton();
 
         if input.is_action_just_pressed("jump".into()) {
-            self.velocity.y = -self.shoot_vel.y;
-            self.velocity.x += self.shoot_vel.x;
             if self.paused {
+                self.velocity.y = -self.shoot_vel.y;
+                self.velocity.x += self.shoot_vel.x;
                 self.paused = false;
+                self.stamina = 12;
+                self.base_mut()
+                    .emit_signal("on_fill_stamina_and_bounce".into(), &[]);
+            } else {
+                if self.stamina > 0 {
+                    self.stamina -= 1;
+                    self.velocity.y = -self.shoot_vel.y;
+                    self.velocity.x += self.shoot_vel.x;
+                    self.base_mut()
+                        .emit_signal("on_consume_one_stamina_and_flap".into(), &[]);
+                } else {
+                    self.base_mut().emit_signal("on_cannot_flap".into(), &[]);
+                }
             }
         }
         if self.paused {
-            self.base_mut()
-                .emit_signal("x_vel_update".into(), &[Variant::from(0.0f32)]);
+            self.base_mut().emit_signal(
+                "on_fill_stamina_and_bounce".into(),
+                &[Variant::from(0.0f32)],
+            );
             return;
         }
 
@@ -103,7 +126,6 @@ impl INode2D for Goose {
 
         self.base_mut().set_global_position(new_pos);
 
-        
         if self.velocity.x < -self.velocity_cap.x {
             self.velocity.x = -self.velocity_cap.x;
         }
@@ -112,7 +134,7 @@ impl INode2D for Goose {
         }
 
         self.velocity.x = Self::move_toward_f32(self.velocity.x, 0.0, self.damping.x * delta_time);
-        
+
         let x_vel = self.velocity.x;
         self.base_mut()
             .emit_signal("x_vel_update".into(), &[Variant::from(x_vel)]);

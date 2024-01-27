@@ -207,9 +207,9 @@ position = Vector2(579, 328)
 script = SubResource("GDScript_xo3ya")
 Target = NodePath("../Player")
 ZoomCurve = SubResource("Curve_524lu")
-ZoomDistanceMinMax = Vector2(0, 333)
-ZoomMinMax = Vector2(1, 0.2)
-ZoomXOffset = 999.0
+ZoomDistanceMinMax = Vector2(0, 999)
+ZoomMinMax = Vector2(3, 1)
+ZoomXOffset = 9999.0
 groundOffset = 500.0
 
 [node name="Player" type="Goose" parent="Node2D"]

@@ -96,15 +96,25 @@ noise = SubResource("FastNoiseLite_1igy8")
 script/source = "extends Sprite2D
 
 @export var tiling: int = 1
+@export var tiling_offset: int = 0
+
+
+func _ready():
+	var width = get_rect().size.x * scale.x
+	global_position.x = width * tiling_offset
+	#print(width)
+	pass
+	
 
 func _process(delta):
-	var width = get_rect().size.x 
+	var width = get_rect().size.x * scale.x
 	var halfWidth = width * 0.5
 	var x = global_position.x
 	var left = x - halfWidth
 	var right = x + halfWidth
+	
 	if right < 0 :
-		global_position += Vector2.LEFT * (width * tiling)	
+		global_position.x += width * tiling
 		print(\"moved\")
 
 "
@@ -114,8 +124,10 @@ func _process(delta):
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="Node2D"]
+position = Vector2(579, 328)
 
 [node name="Player" type="Node2D" parent="Node2D"]
+position = Vector2(175, 382)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Player"]
 libraries = {
@@ -130,17 +142,38 @@ position = Vector2(-1, -6)
 texture = ExtResource("11_sn50q")
 
 [node name="World" type="Node2D" parent="Node2D"]
+position = Vector2(877, 382)
 script = SubResource("GDScript_w8t71")
 
 [node name="Tile" type="Sprite2D" parent="Node2D/World"]
 z_index = -1
+texture_filter = 1
 position = Vector2(-96, 280)
 scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
 script = SubResource("GDScript_2by4p")
+tiling = 2
 
 [node name="HappyMountains2" type="Sprite2D" parent="Node2D/World/Tile"]
 z_index = -2
+texture_filter = 1
+position = Vector2(-2.67029e-05, -316.243)
+scale = Vector2(1, 1.13495)
+texture = ExtResource("12_gl7jy")
+
+[node name="Tile2" type="Sprite2D" parent="Node2D/World"]
+z_index = -1
+texture_filter = 1
+position = Vector2(1502, 280)
+scale = Vector2(3.125, 2.75342)
+texture = SubResource("NoiseTexture2D_3fhlx")
+script = SubResource("GDScript_2by4p")
+tiling = 2
+tiling_offset = 1
+
+[node name="HappyMountains2" type="Sprite2D" parent="Node2D/World/Tile2"]
+z_index = -2
+texture_filter = 1
 position = Vector2(-2.67029e-05, -316.243)
 scale = Vector2(1, 1.13495)
 texture = ExtResource("12_gl7jy")

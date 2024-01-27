@@ -168,6 +168,7 @@ script/source = "extends Area2D
 
 func hit(asdf):
 	print(\"hit\")
+	$GooseSoundHit.play();
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wu5l"]
@@ -175,6 +176,18 @@ shader = ExtResource("2_0k8r8")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sjmup"]
 radius = 112.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_prm7r"]
+random_pitch = 1.54
+streams_count = 4
+stream_0/stream = ExtResource("13_8c7in")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("14_tqoce")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("15_q4bv1")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("16_4oxp1")
+stream_3/weight = 1.0
 
 [sub_resource type="GDScript" id="GDScript_3m4kv"]
 script/source = "extends Label
@@ -210,17 +223,6 @@ func _process(delta):
 	text = \"Current distance %.f\" % distanceTraveled + \"\\nHighscore %.f\" % highscore;
 	pass
 "
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_prm7r"]
-streams_count = 4
-stream_0/stream = ExtResource("13_8c7in")
-stream_0/weight = 1.0
-stream_1/stream = ExtResource("14_tqoce")
-stream_1/weight = 1.0
-stream_2/stream = ExtResource("15_q4bv1")
-stream_2/weight = 1.0
-stream_3/stream = ExtResource("16_4oxp1")
-stream_3/weight = 1.0
 
 [node name="Node2D" type="Node2D"]
 
@@ -296,6 +298,10 @@ texture = ExtResource("5_3ejog")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/World/Node2D/Tile/Area2D"]
 shape = SubResource("CircleShape2D_sjmup")
+
+[node name="GooseSoundHit" type="AudioStreamPlayer" parent="Node2D/World/Node2D/Tile/Area2D"]
+stream = SubResource("AudioStreamRandomizer_prm7r")
+volume_db = 18.28
 
 [node name="Tile2" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 tiling_offset = 1

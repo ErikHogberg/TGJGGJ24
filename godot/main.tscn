@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=30 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="Shader" uid="uid://b88uqnyohcr48" path="res://main.tres" id="2_0k8r8"]
@@ -196,6 +196,41 @@ func _process(delta):
 		global_position.x += width * tiling
 		#print(\"moved\")
 
+"
+
+[sub_resource type="GDScript" id="GDScript_3m4kv"]
+script/source = "extends Label
+#refference so we can grab world x position
+@export var ground: Node2D;
+#Variable that will store worlds x position
+var distanceTraveled;
+#global position grabs the middle of world so i need to offset it so that the position starts at 0
+var startOffset = 877;
+var highscore;
+
+var distanceTraveledText;
+var highscoreText;
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	highscore = 0;
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	
+	
+	#makes distanceTraveled into grounds x position
+	distanceTraveled = -ground.global_position.x + startOffset;
+	
+	if distanceTraveled > highscore:
+		highscore = distanceTraveled;
+	
+	#%.f tells the string that distanceTraveled is a float and the . makes it so the decimal points are removed
+	#text = \"Current distance %.f meter's\" % distanceTraveled;
+	text = \"Current distance %.f\" % distanceTraveled + \"\\nHighscore %.f\" % highscore;
+	pass
 "
 
 [node name="Node2D" type="Node2D"]
@@ -466,5 +501,13 @@ texture_filter = 1
 position = Vector2(1.52588e-05, -897.066)
 scale = Vector2(1, 1.13495)
 texture = ExtResource("14_jvcrg")
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("ground")]
+offset_left = 932.0
+offset_top = 9.0
+offset_right = 1145.0
+offset_bottom = 32.0
+script = SubResource("GDScript_3m4kv")
+ground = NodePath("../Node2D/World")
 
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]

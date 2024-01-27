@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://diga61vwuxio4"
-path="res://.godot/imported/Goose_title_dance_animation.png-d6ed156501c6b0d934fec5d8be32afa8.ctex"
+uid="uid://yaow6qi6ead7"
+path="res://.godot/imported/Goose_123shoot.png-71bd83f0f7cf913e359e6094a680b515.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/Goose_title_dance_animation.png"
-dest_files=["res://.godot/imported/Goose_title_dance_animation.png-d6ed156501c6b0d934fec5d8be32afa8.ctex"]
+source_file="res://gfx/shootText/Goose_123shoot.png"
+dest_files=["res://.godot/imported/Goose_123shoot.png-71bd83f0f7cf913e359e6094a680b515.ctex"]
 
 [params]
 

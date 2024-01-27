@@ -127,19 +127,30 @@ script/source = "extends Label
 var distanceTraveled;
 #global position grabs the middle of world so i need to offset it so that the position starts at 0
 var startOffset = 877;
+var highscore;
+
+var distanceTraveledText;
+var highscoreText;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	highscore = 0;
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	
 	#makes distanceTraveled into grounds x position
 	distanceTraveled = -ground.global_position.x + startOffset;
 	
+	if distanceTraveled > highscore:
+		highscore = distanceTraveled;
+	
 	#%.f tells the string that distanceTraveled is a float and the . makes it so the decimal points are removed
-	text = \"Distance %.f meter\" % distanceTraveled;
+	#text = \"Current distance %.f meter's\" % distanceTraveled;
+	text = \"Current distance %.f\" % distanceTraveled + \"\\nHighscore %.f\" % highscore;
 	pass
 "
 
@@ -203,9 +214,9 @@ scale = Vector2(1, 1.13495)
 texture = ExtResource("12_gl7jy")
 
 [node name="Label" type="Label" parent="." node_paths=PackedStringArray("ground")]
-offset_left = 1106.0
-offset_top = 8.0
-offset_right = 1146.0
-offset_bottom = 31.0
+offset_left = 932.0
+offset_top = 9.0
+offset_right = 1145.0
+offset_bottom = 32.0
 script = SubResource("GDScript_3m4kv")
 ground = NodePath("../Node2D/World")

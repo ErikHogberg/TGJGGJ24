@@ -1,5 +1,5 @@
 use godot::engine::utilities::move_toward;
-use godot::engine::{Curve, INode2D, Node2D};
+use godot::engine::{INode2D, Node2D};
 use godot::prelude::*;
 
 #[derive(GodotClass)]
@@ -16,14 +16,7 @@ struct Goose {
     #[export]
     shoot_vel: Vector2,
 
-    #[export]
-    distance_min_max: Vector2,
-    #[export]
-    speed_min_max: Vector2,
-    #[export]
-    speed_curve: Gd<Curve>,
-    #[export]
-    vertical_mul: f32,
+    hit_ground_once: bool,
 
     base: Base<Node2D>,
 }
@@ -32,6 +25,10 @@ struct Goose {
 impl Goose {
     #[signal]
     fn x_vel_update(new_x_vel: f32);
+    #[signal]
+    fn on_shoot();
+    #[signal]
+    fn on_hit_ground();
 }
 
 impl Goose {
@@ -49,10 +46,7 @@ impl INode2D for Goose {
             velocity: Vector2::new(0.0, 0.0),
             damping: Vector2::new(1.0, 1.0),
             shoot_vel: Vector2::new(99.0, 9.0),
-            speed_curve: Curve::new_gd(),
-            vertical_mul: 1.0,
-            distance_min_max: Vector2::new(1.0, 9.0),
-            speed_min_max: Vector2::new(1.0, 9.0),
+            hit_ground_once: false,
             base,
         }
     }
@@ -72,6 +66,11 @@ impl INode2D for Goose {
         let up_speed = self.velocity.y * delta_time;
         let mut new_pos = global_position + Vector2::DOWN * up_speed;
         if new_pos.y > self.ground_y {
+            if !self.hit_ground_once{
+                self.hit_ground_once = true;
+                self.base_mut().emit_signal("on_hit_ground".into(), &[]);
+                
+            }
             self.velocity.y = 0.0;
             new_pos.y = self.ground_y;
         }
@@ -82,7 +81,6 @@ impl INode2D for Goose {
         self.velocity.x = Self::move_toward_f32(self.velocity.x, 0.0, self.damping.x * delta_time);
 
         let x_vel = self.velocity.x;
-        self.base_mut()
-            .emit_signal("x_vel_update".into(), &[Variant::from(x_vel)]);
+        self.base_mut().emit_signal("x_vel_update".into(), &[Variant::from(x_vel)]);
     }
 }

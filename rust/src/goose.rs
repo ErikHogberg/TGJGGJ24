@@ -23,6 +23,7 @@ struct Goose {
     stamina: i32,
 
     hit_ground_once: bool,
+    waiting_for_shoot: bool,
 
     base: Base<Node2D>,
 }
@@ -95,6 +96,7 @@ impl INode2D for Goose {
             hit_ground_once: false,
             paused: true,
             should_restart: false,
+            waiting_for_shoot: true,
             stamina: 12,
             base,
         }

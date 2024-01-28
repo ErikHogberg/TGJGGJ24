@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxrxdyxkpni5x"]
+
+[ext_resource type="Texture2D" uid="uid://c3strpfdc3p6o" path="res://gfx/Flappy_Goose_Curling_D_titlescreen.png" id="1_glacy"]
+
+[sub_resource type="GDScript" id="GDScript_t6fj3"]
+script/source = "extends Button
+
+var simultaneous_scene = preload(\"res://main.tscn\")
+
+func _add_a_scene_manually():
+	# This is like autoloading the scene, only
+	# it happens after already loading the main scene.
+	get_tree().root.add_child(simultaneous_scene)
+
+func press():
+	get_tree().change_scene_to_file(\"res://main.tscn\")
+"
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -136.0
+offset_top = -104.0
+offset_right = 1464.0
+offset_bottom = 808.0
+color = Color(0.301961, 0.65098, 1, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 48.0
+offset_right = 864.0
+offset_bottom = 584.0
+texture = ExtResource("1_glacy")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 488.0
+offset_right = 808.0
+offset_bottom = 536.0
+text = "Play"
+script = SubResource("GDScript_t6fj3")
+
+[connection signal="pressed" from="Button" to="Button" method="press"]

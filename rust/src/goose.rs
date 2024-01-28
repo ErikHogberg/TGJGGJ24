@@ -35,21 +35,25 @@ impl Goose {
     }
 
     #[func]
-    fn hit_stop_guy(&mut self){
-
+    fn hit_stop_guy(&mut self) {
+        godot_print!("hit stop guy");
+        self.stamina = 0;
+        self.should_restart = true;
+        self.base_mut()
+            .emit_signal("x_vel_update".into(), &[Variant::from(0.0f32)]);
     }
     #[func]
-    fn hit_plane(&mut self){
-
+    fn hit_plane(&mut self) {
+        self.velocity.x = 0.0;
     }
     #[func]
-    fn hit_ufo(&mut self){
-
+    fn hit_ufo(&mut self) {
+        godot_print!("hit ufo")
     }
 
     #[func]
-    fn hit_hawk(&mut self){
-
+    fn hit_hawk(&mut self) {
+        godot_print!("hit hawk")
     }
 
     #[signal]
@@ -59,13 +63,15 @@ impl Goose {
     #[signal]
     fn on_hit_ground();
     #[signal]
-    fn on_consume_one_stamina_and_flap(new_stamina_amount :i32);
+    fn on_consume_one_stamina_and_flap(new_stamina_amount: i32);
     #[signal]
     fn on_cannot_flap();
     #[signal]
     fn on_fill_stamina_and_bounce();
     #[signal]
     fn on_stopped();
+    #[signal]
+    fn on_sit();
     #[signal]
     fn on_restart();
 }
@@ -99,10 +105,11 @@ impl INode2D for Goose {
 
         if self.should_restart {
             if input.is_action_just_pressed("jump".into()) {
-                self.base_mut()
-                .emit_signal("on_restart".into(), &[]);
+                godot_print!("restarting");
+                self.base_mut().emit_signal("on_restart".into(), &[]);
                 self.should_restart = false;
-            }        
+                self.paused = true;
+            }
             return;
         }
 
@@ -121,18 +128,18 @@ impl INode2D for Goose {
                     self.velocity.x += self.shoot_vel.x;
                     let stamina = self.stamina;
                     self.hit_ground_once = false;
-                    self.base_mut()
-                        .emit_signal("on_consume_one_stamina_and_flap".into(), &[Variant::from(stamina)]);
+                    self.base_mut().emit_signal(
+                        "on_consume_one_stamina_and_flap".into(),
+                        &[Variant::from(stamina)],
+                    );
                 } else {
                     self.base_mut().emit_signal("on_cannot_flap".into(), &[]);
                 }
             }
         }
         if self.paused {
-            self.base_mut().emit_signal(
-                "x_vel_update".into(),
-                &[Variant::from(0.0f32)],
-            );
+            self.base_mut()
+                .emit_signal("x_vel_update".into(), &[Variant::from(0.0f32)]);
             return;
         }
 
@@ -175,11 +182,14 @@ impl INode2D for Goose {
             .emit_signal("x_vel_update".into(), &[Variant::from(x_vel)]);
 
         if x_vel < 0.001 {
-            self.should_restart = true;
-            self.paused = true;
-            self.base_mut()
-            .emit_signal("on_stopped".into(), &[]);
+            self.base_mut().emit_signal("on_sit".into(), &[]);
+            if self.stamina < 1 {
+                self.should_restart = true;
+                self.base_mut()
+                    .emit_signal("x_vel_update".into(), &[Variant::from(0.0f32)]);
+                self.paused = true;
+                self.base_mut().emit_signal("on_stopped".into(), &[]);
+            }
         }
-
     }
 }

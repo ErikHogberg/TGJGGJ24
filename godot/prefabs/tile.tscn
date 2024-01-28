@@ -1,6 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://sx2wmc23ngv4"]
 
 [ext_resource type="Texture2D" uid="uid://c477rhxxb6w1t" path="res://gfx/Happy_mountains.bmp" id="1_npxhd"]
+[ext_resource type="Script" path="res://prefabs/tileScript.tres.gd" id="1_qayoe"]
 [ext_resource type="Texture2D" uid="uid://dpb6i0dwia14l" path="res://gfx/Goose_sky.bmp" id="2_o8h54"]
 [ext_resource type="Texture2D" uid="uid://bcgp3ctw68fgh" path="res://gfx/Goose_tilesheet.png" id="3_t72or"]
 
@@ -15,40 +16,13 @@ height = 64
 color_ramp = SubResource("Gradient_athk4")
 noise = SubResource("FastNoiseLite_1igy8")
 
-[sub_resource type="GDScript" id="GDScript_2by4p"]
-script/source = "extends Sprite2D
-
-@export var tiling: int = 1
-@export var tiling_offset: int = 0
-
-
-func _ready():
-	var width = get_rect().size.x * scale.x
-	global_position.x = width * tiling_offset
-	#print(width)
-	pass
-	
-
-func _process(delta):
-	var width = get_rect().size.x * scale.x
-	var halfWidth = width * 0.5
-	var x = global_position.x
-	var left = x - halfWidth
-	var right = x + halfWidth
-	
-	if right < -width*3.0 :
-		global_position.x += width * tiling
-		#print(\"moved\")
-
-"
-
 [node name="Tile" type="Sprite2D"]
 z_index = -2
 texture_filter = 1
 position = Vector2(-101, 282)
 scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
-script = SubResource("GDScript_2by4p")
+script = ExtResource("1_qayoe")
 tiling = 6
 
 [node name="HappyMountains2" type="Sprite2D" parent="."]

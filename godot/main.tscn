@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=69 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="PackedScene" uid="uid://dqekr6jy38iai" path="res://shoot_text.tscn" id="1_amu7x"]
@@ -26,7 +26,8 @@
 [ext_resource type="Texture2D" uid="uid://dpb6i0dwia14l" path="res://gfx/Goose_sky.bmp" id="19_54kpo"]
 [ext_resource type="Texture2D" uid="uid://bcgp3ctw68fgh" path="res://gfx/Goose_tilesheet.png" id="20_kp7lr"]
 [ext_resource type="Texture2D" uid="uid://bunuk6smin1th" path="res://gfx/Happy_mountain2.bmp" id="21_3gu6d"]
-[ext_resource type="PackedScene" uid="uid://c667m8c1swr6x" path="res://prefabs/stoppsnubbe.tscn" id="22_oggd6"]
+[ext_resource type="Script" path="res://prefabs/tileScript.tres.gd" id="21_7br8w"]
+[ext_resource type="Texture2D" uid="uid://c3veppqgtdc1h" path="res://gfx/Stoppsnubbe.png" id="24_sh636"]
 
 [sub_resource type="GDScript" id="GDScript_xo3ya"]
 script/source = "extends Camera2D
@@ -125,6 +126,7 @@ func flap(asdf: int = 0):
 	play(\"gooseFly\")
 	
 func roll():
+	stop()
 	play(\"roll\")
 
 func sit():
@@ -145,11 +147,31 @@ script/source = "extends Node2D
 
 @export var speed: float = 99
 
+var x_buffer = 0;
+var start_pos = Vector2.ZERO;
+
+func _ready():
+	start_pos = position
+
+func reset_pos():
+	x_buffer = 0
+	$Node2D/Tile.restart()
+	$Node2D/Tile2.restart()
+	$Node2D/Tile3.restart()
+	$Node2D/Tile4.restart()
+	$Node2D/Tile5.restart()
+	$Node2D/Tile6.restart()
+	$Node2D/Tile7.restart()
+	$Node2D/Tile8.restart()
+
 func set_x_vel(x_vel: float):
 	speed = x_vel
 
 func _process(delta):
-	position += Vector2.LEFT * (delta * speed)
+	x_buffer += delta * speed;
+	position = start_pos
+	position.x += -x_buffer
+	position.x = snappedf(position.x, 1.0)
 "
 
 [sub_resource type="Animation" id="Animation_f2lpp"]
@@ -356,6 +378,56 @@ shader = ExtResource("2_0k8r8")
 [sub_resource type="CircleShape2D" id="CircleShape2D_sjmup"]
 radius = 112.0
 
+[sub_resource type="GDScript" id="GDScript_5enij"]
+script/source = "extends Area2D
+
+
+
+func _on_body_entered(body):
+	%Player.hit_plane()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mvc1f"]
+radius = 21.3334
+
+[sub_resource type="Animation" id="Animation_no4c3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(174.08, -915.225)]
+}
+
+[sub_resource type="Animation" id="Animation_sonlk"]
+resource_name = "patrol"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4.2, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(174.08, -915.225), Vector2(-186.88, -857.116), Vector2(179.2, -775.762), Vector2(174.08, -915.225)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_evxee"]
+_data = {
+"RESET": SubResource("Animation_no4c3"),
+"patrol": SubResource("Animation_sonlk")
+}
+
 [sub_resource type="Gradient" id="Gradient_athk4"]
 offsets = PackedFloat32Array(0, 0.403614, 0.855422, 1)
 colors = PackedColorArray(0.411385, 0.296819, 0, 1, 0.361403, 0.443753, 0.000360596, 1, 0.390643, 0.302097, 0, 1, 0.464605, 0.258231, 0.196703, 1)
@@ -367,32 +439,55 @@ height = 64
 color_ramp = SubResource("Gradient_athk4")
 noise = SubResource("FastNoiseLite_1igy8")
 
-[sub_resource type="GDScript" id="GDScript_2by4p"]
-script/source = "extends Sprite2D
-
-@export var tiling: int = 1
-@export var tiling_offset: int = 0
+[sub_resource type="GDScript" id="GDScript_hr35s"]
+script/source = "extends Area2D
 
 
-func _ready():
-	var width = get_rect().size.x * scale.x
-	global_position.x = width * tiling_offset
-	#print(width)
-	pass
-	
 
-func _process(delta):
-	var width = get_rect().size.x * scale.x
-	var halfWidth = width * 0.5
-	var x = global_position.x
-	var left = x - halfWidth
-	var right = x + halfWidth
-	
-	if right < -width :
-		global_position.x += width * tiling
-		#print(\"moved\")
-
+func _on_body_entered(body):
+	%Player.hit_stop_guy()
 "
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ha6hg"]
+radius = 15.36
+
+[sub_resource type="Animation" id="Animation_mgcd0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(92.16, -58.1096)]
+}
+
+[sub_resource type="Animation" id="Animation_hn4ds"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(92.16, -58.1096), Vector2(92.16, -63.9205)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vhtla"]
+_data = {
+"RESET": SubResource("Animation_mgcd0"),
+"idle": SubResource("Animation_hn4ds")
+}
 
 [sub_resource type="Gradient" id="Gradient_ycdl0"]
 offsets = PackedFloat32Array(0, 0.944598, 1)
@@ -539,7 +634,21 @@ tiling = 8
 tiling_offset = 1
 
 [node name="Plane" parent="Node2D/World/Node2D/Tile2" instance=ExtResource("18_uxp0k")]
-position = Vector2(145.92, -778.668)
+position = Vector2(174.08, -915.225)
+scale = Vector2(1.91, 2.169)
+
+[node name="Area2D" type="Area2D" parent="Node2D/World/Node2D/Tile2/Plane"]
+script = SubResource("GDScript_5enij")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/World/Node2D/Tile2/Plane/Area2D"]
+position = Vector2(0, 13.3335)
+shape = SubResource("CircleShape2D_mvc1f")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/World/Node2D/Tile2/Plane"]
+libraries = {
+"": SubResource("AnimationLibrary_evxee")
+}
+autoplay = "patrol"
 
 [node name="Tile3" type="Sprite2D" parent="Node2D/World/Node2D"]
 z_index = -2
@@ -547,7 +656,7 @@ texture_filter = 1
 position = Vector2(3163, 282)
 scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
-script = SubResource("GDScript_2by4p")
+script = ExtResource("21_7br8w")
 tiling = 8
 tiling_offset = 2
 
@@ -716,7 +825,23 @@ position = Vector2(4787, 282)
 tiling = 8
 tiling_offset = 3
 
-[node name="Stoppsnubbe" parent="Node2D/World/Node2D/Tile4" instance=ExtResource("22_oggd6")]
+[node name="Stoppsnubbe" type="Sprite2D" parent="Node2D/World/Node2D/Tile4"]
+texture_filter = 1
+position = Vector2(92.16, -58.1096)
+texture = ExtResource("24_sh636")
+
+[node name="Area2D" type="Area2D" parent="Node2D/World/Node2D/Tile4/Stoppsnubbe"]
+script = SubResource("GDScript_hr35s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/World/Node2D/Tile4/Stoppsnubbe/Area2D"]
+position = Vector2(-5.12, -5.81091)
+shape = SubResource("CircleShape2D_ha6hg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/World/Node2D/Tile4/Stoppsnubbe"]
+libraries = {
+"": SubResource("AnimationLibrary_vhtla")
+}
+autoplay = "idle"
 
 [node name="Tile5" type="Sprite2D" parent="Node2D/World/Node2D"]
 z_index = -2
@@ -724,7 +849,7 @@ texture_filter = 1
 position = Vector2(6483, 282)
 scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
-script = SubResource("GDScript_2by4p")
+script = ExtResource("21_7br8w")
 tiling = 8
 tiling_offset = 4
 
@@ -954,3 +1079,5 @@ script = ExtResource("19_6c8ht")
 [connection signal="on_hit_ground" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="roll"]
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile/Area2D" to="Node2D/World/Node2D/Tile/Area2D" method="hit"]
+[connection signal="body_entered" from="Node2D/World/Node2D/Tile2/Plane/Area2D" to="Node2D/World/Node2D/Tile2/Plane/Area2D" method="_on_body_entered"]
+[connection signal="body_entered" from="Node2D/World/Node2D/Tile4/Stoppsnubbe/Area2D" to="Node2D/World/Node2D/Tile4/Stoppsnubbe/Area2D" method="_on_body_entered"]

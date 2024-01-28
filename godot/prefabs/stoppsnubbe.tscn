@@ -1,8 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://c667m8c1swr6x"]
+[gd_scene load_steps=4 format=3 uid="uid://c667m8c1swr6x"]
 
 [ext_resource type="Texture2D" uid="uid://c3veppqgtdc1h" path="res://gfx/Stoppsnubbe.png" id="1_0v0pg"]
+
+[sub_resource type="GDScript" id="GDScript_hr35s"]
+script/source = "extends Area2D
+
+
+
+func _on_body_entered(body):
+	%Player.hit_stop_guy()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ha6hg"]
+radius = 15.36
 
 [node name="Stoppsnubbe" type="Sprite2D"]
 texture_filter = 1
 position = Vector2(92.16, -58.1096)
 texture = ExtResource("1_0v0pg")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = SubResource("GDScript_hr35s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ha6hg")
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

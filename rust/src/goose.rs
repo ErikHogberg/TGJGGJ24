@@ -23,7 +23,8 @@ struct Goose {
     stamina: i32,
 
     hit_ground_once: bool,
-    waiting_for_shoot: bool,
+    // waiting_for_shoot: bool,
+    lives: i32,
 
     base: Base<Node2D>,
 }
@@ -40,6 +41,10 @@ impl Goose {
         godot_print!("hit stop guy");
         self.stamina = 0;
         self.should_restart = true;
+        self.lives -= 1;
+        let new_lives = self.lives;
+        self.base_mut()
+            .emit_signal("on_lost_life".into(), &[Variant::from(new_lives)]);
         self.base_mut()
             .emit_signal("x_vel_update".into(), &[Variant::from(0.0f32)]);
     }
@@ -49,12 +54,13 @@ impl Goose {
     }
     #[func]
     fn hit_ufo(&mut self) {
-        godot_print!("hit ufo")
+        godot_print!("hit ufo");
     }
 
     #[func]
     fn hit_hawk(&mut self) {
-        godot_print!("hit hawk")
+        godot_print!("hit hawk");
+        self.velocity.y = 0.0;
     }
 
     #[signal]
@@ -75,6 +81,9 @@ impl Goose {
     fn on_sit();
     #[signal]
     fn on_restart();
+
+    #[signal]
+    fn on_lost_life(lives_left: i32);
 }
 
 impl Goose {
@@ -96,7 +105,8 @@ impl INode2D for Goose {
             hit_ground_once: false,
             paused: true,
             should_restart: false,
-            waiting_for_shoot: true,
+            // waiting_for_shoot: true,
+            lives: 3,
             stamina: 12,
             base,
         }
@@ -107,10 +117,17 @@ impl INode2D for Goose {
 
         if self.should_restart {
             if input.is_action_just_pressed("jump".into()) {
-                godot_print!("restarting");
-                self.base_mut().emit_signal("on_restart".into(), &[]);
-                self.should_restart = false;
-                self.paused = true;
+                if self.lives > 0 {
+                    godot_print!("restarting");
+                    self.base_mut().emit_signal("on_restart".into(), &[]);
+                    self.should_restart = false;
+                    self.paused = true;
+                } else {
+                    self.base_mut()
+                        .get_tree()
+                        .unwrap()
+                        .change_scene_to_file("res://MainMenu.tscn".into());
+                }
             }
             return;
         }
@@ -187,6 +204,11 @@ impl INode2D for Goose {
             self.base_mut().emit_signal("on_sit".into(), &[]);
             if self.stamina < 1 {
                 self.should_restart = true;
+                self.lives -= 1;
+                let new_lives = self.lives;
+                self.base_mut()
+                    .emit_signal("on_lost_life".into(), &[Variant::from(new_lives)]);
+
                 self.base_mut()
                     .emit_signal("x_vel_update".into(), &[Variant::from(0.0f32)]);
                 self.paused = true;

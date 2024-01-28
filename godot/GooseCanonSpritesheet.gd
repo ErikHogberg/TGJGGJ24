@@ -12,7 +12,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print(cannonAim);
+	#print(cannonAim);
 	if Input.is_action_just_pressed("AimUp")&& cannonAim < 4:
 		_AimUp();
 

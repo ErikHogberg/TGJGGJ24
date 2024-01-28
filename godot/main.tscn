@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=77 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="PackedScene" uid="uid://dqekr6jy38iai" path="res://shoot_text.tscn" id="1_amu7x"]
@@ -30,6 +30,7 @@
 [ext_resource type="Script" path="res://prefabs/tileScript.tres.gd" id="21_7br8w"]
 [ext_resource type="Texture2D" uid="uid://c3veppqgtdc1h" path="res://gfx/Stoppsnubbe.png" id="24_sh636"]
 [ext_resource type="Texture2D" uid="uid://bnpo0j4mb4mnj" path="res://gfx/Atmoshpere.png" id="26_217pi"]
+[ext_resource type="Texture2D" uid="uid://6fu1jc4ok2nt" path="res://gfx/Hawk.png" id="29_o0g70"]
 
 [sub_resource type="GDScript" id="GDScript_xo3ya"]
 script/source = "extends Camera2D
@@ -480,6 +481,53 @@ _data = {
 "RESET": SubResource("Animation_mgcd0"),
 "idle": SubResource("Animation_hn4ds")
 }
+
+[sub_resource type="GDScript" id="GDScript_ae86i"]
+script/source = "extends Sprite2D
+
+
+func hit(asdf):
+	%Player.hit_hawk()
+"
+
+[sub_resource type="Animation" id="Animation_ymhbw"]
+resource_name = "new_animation"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(665.6, -586.906), Vector2(394.24, -395.145), Vector2(186.88, -598.528), Vector2(-110.08, -403.861)]
+}
+
+[sub_resource type="Animation" id="Animation_v6g2y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(665.6, -586.906)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cptl2"]
+_data = {
+"RESET": SubResource("Animation_v6g2y"),
+"new_animation": SubResource("Animation_ymhbw")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f8jvk"]
 
 [sub_resource type="Gradient" id="Gradient_ycdl0"]
 offsets = PackedFloat32Array(0, 0.944598, 1)
@@ -1025,6 +1073,23 @@ frame = 2
 position = Vector2(-9.53674e-07, -1443.3)
 texture = ExtResource("26_217pi")
 
+[node name="Hawk" type="Sprite2D" parent="Node2D/World/Node2D/Tile5"]
+position = Vector2(665.6, -586.906)
+scale = Vector2(2.8419, 3.22543)
+texture = ExtResource("29_o0g70")
+script = SubResource("GDScript_ae86i")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/World/Node2D/Tile5/Hawk"]
+libraries = {
+"": SubResource("AnimationLibrary_cptl2")
+}
+autoplay = "new_animation"
+
+[node name="Area2D" type="Area2D" parent="Node2D/World/Node2D/Tile5/Hawk"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/World/Node2D/Tile5/Hawk/Area2D"]
+shape = SubResource("CircleShape2D_f8jvk")
+
 [node name="Tile6" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 position = Vector2(8083, 282)
 tiling = 8
@@ -1049,6 +1114,7 @@ scale = Vector2(37.5, 10128)
 texture = SubResource("GradientTexture1D_3rtwl")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Node2D/Frame"]
+visible = false
 z_index = 5
 position = Vector2(10672, -3528)
 scale = Vector2(37.5, 10128)
@@ -1098,3 +1164,4 @@ script = ExtResource("19_6c8ht")
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile/goose" to="Node2D/World/Node2D/Tile/goose" method="hit"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile2/Plane/Area2D" to="Node2D/World/Node2D/Tile2/Plane/Area2D" method="_on_body_entered"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile4/Stoppsnubbe/Area2D" to="Node2D/World/Node2D/Tile4/Stoppsnubbe/Area2D" method="_on_body_entered"]
+[connection signal="body_entered" from="Node2D/World/Node2D/Tile5/Hawk/Area2D" to="Node2D/World/Node2D/Tile5/Hawk" method="hit"]

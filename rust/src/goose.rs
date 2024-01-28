@@ -40,7 +40,7 @@ impl Goose {
     #[signal]
     fn on_hit_ground();
     #[signal]
-    fn on_consume_one_stamina_and_flap();
+    fn on_consume_one_stamina_and_flap(new_stamina_amount :i32);
     #[signal]
     fn on_cannot_flap();
     #[signal]
@@ -64,7 +64,7 @@ impl INode2D for Goose {
             shoot_vel: Vector2::new(99.0, 9.0),
             velocity_cap: Vector2::ZERO,
             hit_ground_once: false,
-            paused: false,
+            paused: true,
             stamina: 12,
             base,
         }
@@ -86,8 +86,10 @@ impl INode2D for Goose {
                     self.stamina -= 1;
                     self.velocity.y = -self.shoot_vel.y;
                     self.velocity.x += self.shoot_vel.x;
+                    let stamina = self.stamina;
+                    self.hit_ground_once = false;
                     self.base_mut()
-                        .emit_signal("on_consume_one_stamina_and_flap".into(), &[]);
+                        .emit_signal("on_consume_one_stamina_and_flap".into(), &[Variant::from(stamina)]);
                 } else {
                     self.base_mut().emit_signal("on_cannot_flap".into(), &[]);
                 }
@@ -95,7 +97,7 @@ impl INode2D for Goose {
         }
         if self.paused {
             self.base_mut().emit_signal(
-                "on_fill_stamina_and_bounce".into(),
+                "x_vel_update".into(),
                 &[Variant::from(0.0f32)],
             );
             return;

@@ -125,6 +125,7 @@ func flap(asdf: int = 0):
 	play(\"gooseFly\")
 	
 func roll():
+	stop()
 	play(\"roll\")
 
 func sit():
@@ -145,11 +146,20 @@ script/source = "extends Node2D
 
 @export var speed: float = 99
 
+var x_buffer = 0;
+var start_pos = Vector2.ZERO;
+
+func _ready():
+	start_pos = position
+
 func set_x_vel(x_vel: float):
 	speed = x_vel
 
 func _process(delta):
-	position += Vector2.LEFT * (delta * speed)
+	x_buffer += delta * speed;
+	position = start_pos
+	position.x += -x_buffer
+	position.x = snappedf(position.x, 1.0)
 "
 
 [sub_resource type="Animation" id="Animation_f2lpp"]

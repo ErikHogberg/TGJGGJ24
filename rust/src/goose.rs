@@ -19,6 +19,7 @@ struct Goose {
     velocity_cap: Vector2,
 
     paused: bool,
+    should_restart: bool,
     stamina: i32,
 
     hit_ground_once: bool,
@@ -33,6 +34,24 @@ impl Goose {
         self.paused = true;
     }
 
+    #[func]
+    fn hit_stop_guy(&mut self){
+
+    }
+    #[func]
+    fn hit_plane(&mut self){
+
+    }
+    #[func]
+    fn hit_ufo(&mut self){
+
+    }
+
+    #[func]
+    fn hit_hawk(&mut self){
+
+    }
+
     #[signal]
     fn x_vel_update(new_x_vel: f32);
     #[signal]
@@ -45,6 +64,10 @@ impl Goose {
     fn on_cannot_flap();
     #[signal]
     fn on_fill_stamina_and_bounce();
+    #[signal]
+    fn on_stopped();
+    #[signal]
+    fn on_restart();
 }
 
 impl Goose {
@@ -65,6 +88,7 @@ impl INode2D for Goose {
             velocity_cap: Vector2::ZERO,
             hit_ground_once: false,
             paused: true,
+            should_restart: false,
             stamina: 12,
             base,
         }
@@ -72,6 +96,15 @@ impl INode2D for Goose {
 
     fn process(&mut self, delta: f64) {
         let input = Input::singleton();
+
+        if self.should_restart {
+            if input.is_action_just_pressed("jump".into()) {
+                self.base_mut()
+                .emit_signal("on_restart".into(), &[]);
+                self.should_restart = false;
+            }        
+            return;
+        }
 
         if input.is_action_just_pressed("jump".into()) {
             if self.paused {
@@ -140,5 +173,13 @@ impl INode2D for Goose {
         let x_vel = self.velocity.x;
         self.base_mut()
             .emit_signal("x_vel_update".into(), &[Variant::from(x_vel)]);
+
+        if x_vel < 0.001 {
+            self.should_restart = true;
+            self.paused = true;
+            self.base_mut()
+            .emit_signal("on_stopped".into(), &[]);
+        }
+
     }
 }

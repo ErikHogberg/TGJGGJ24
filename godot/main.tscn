@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=81 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="PackedScene" uid="uid://dqekr6jy38iai" path="res://shoot_text.tscn" id="1_amu7x"]
@@ -536,6 +536,12 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.975069, 0, 0, 0, 0)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_3rtwl"]
 gradient = SubResource("Gradient_ycdl0")
 
+[sub_resource type="Gradient" id="Gradient_28yqg"]
+colors = PackedColorArray(0, 0, 0, 1, 0.14902, 0.266667, 0.384314, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_akql1"]
+gradient = SubResource("Gradient_28yqg")
+
 [sub_resource type="GDScript" id="GDScript_3m4kv"]
 script/source = "extends Label
 #refference so we can grab world x position
@@ -552,8 +558,13 @@ var highscoreText;
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	highscore = 0;
-	pass # Replace with function body.
 
+
+func finish():
+	%finish.text = str(highscore)
+	%finish.show()
+	%finish2.show()
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -594,8 +605,12 @@ func new_lives(lives:int):
 		text= \"%s silly geese left\" % lives
 	else:
 		text = \"Out of Geese :(\"
+		%Label.finish()
 		
 "
+
+[sub_resource type="LabelSettings" id="LabelSettings_2urik"]
+font_size = 34
 
 [node name="Node2D" type="Node2D"]
 
@@ -1135,9 +1150,17 @@ scale = Vector2(37.5, 10128)
 texture = SubResource("GradientTexture1D_3rtwl")
 flip_h = true
 
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+z_index = -3
+position = Vector2(4968, -16280)
+rotation = 1.5708
+scale = Vector2(99, 99999)
+texture = SubResource("GradientTexture1D_akql1")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer" node_paths=PackedStringArray("ground")]
+unique_name_in_owner = true
 offset_left = 932.0
 offset_top = 9.0
 offset_right = 1145.0
@@ -1174,6 +1197,33 @@ offset_top = 16.0
 offset_right = 240.0
 offset_bottom = 112.0
 script = SubResource("GDScript_2qq1v")
+
+[node name="finish" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 544.0
+offset_top = 360.0
+offset_right = 959.0
+offset_bottom = 491.0
+rotation = -0.55676
+text = "56557856678"
+label_settings = SubResource("LabelSettings_2urik")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="finish2" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 456.0
+offset_top = 168.0
+offset_right = 871.0
+offset_bottom = 299.0
+rotation = 0.221657
+text = "Congratulations!
+Your record is
+millimeters!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="flap"]
 [connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="decrease_to"]

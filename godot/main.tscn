@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=49 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="PackedScene" uid="uid://dqekr6jy38iai" path="res://shoot_text.tscn" id="1_amu7x"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://hj4xggcoa2ku" path="res://gfx/gooseRoll/gooseRoll2.tres" id="7_qh44q"]
 [ext_resource type="Texture2D" uid="uid://c833gfqvq3x0l" path="res://gfx/gooseRoll/gooseRoll3.tres" id="8_bhh6b"]
 [ext_resource type="Texture2D" uid="uid://b5aowlt1p3klc" path="res://gfx/gooseRoll/gooseRoll4.tres" id="9_7a7an"]
+[ext_resource type="Texture2D" uid="uid://cp1g65ah5o0ih" path="res://gfx/gooseDive/gooseDive1.tres" id="11_j7vxl"]
 [ext_resource type="Texture2D" uid="uid://cu62cjh3roi6a" path="res://gfx/Goose_canon_spritesheet.png" id="12_0j71a"]
 [ext_resource type="PackedScene" uid="uid://sx2wmc23ngv4" path="res://prefabs/tile.tscn" id="12_t344k"]
 [ext_resource type="AudioStream" uid="uid://sy2xpmt158si" path="res://gfx/gooseIdle/Goose1.wav" id="13_8c7in"]
@@ -62,7 +63,6 @@ point_count = 2
 [sub_resource type="Animation" id="Animation_24ch3"]
 resource_name = "gooseFly"
 length = 0.9
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -115,6 +115,23 @@ _data = {
 "idle": SubResource("Animation_hhwca"),
 "roll": SubResource("Animation_byl6r")
 }
+
+[sub_resource type="GDScript" id="GDScript_qi5yj"]
+script/source = "extends AnimationPlayer
+
+
+func flap(asdf: int = 0):
+	play(\"gooseFly\")
+	
+func roll():
+	play(\"roll\")
+
+func sit():
+	play(\"idle\")
+	
+func dive():
+	play(\"gooseDive\")
+"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tfvkg"]
 shader = ExtResource("2_0k8r8")
@@ -236,6 +253,13 @@ func _process(delta):
 
 "
 
+[sub_resource type="Gradient" id="Gradient_ycdl0"]
+offsets = PackedFloat32Array(0, 0.944598, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.975069, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3rtwl"]
+gradient = SubResource("Gradient_ycdl0")
+
 [sub_resource type="GDScript" id="GDScript_3m4kv"]
 script/source = "extends Label
 #refference so we can grab world x position
@@ -288,8 +312,8 @@ groundOffset = 500.0
 
 [node name="Player" type="Goose" parent="Node2D"]
 ground_y = 500.0
-damping = Vector2(99, 3333)
-shoot_vel = Vector2(999, 3333)
+damping = Vector2(99, 2222)
+shoot_vel = Vector2(999, 2222)
 velocity_cap = Vector2(3333, 6666)
 unique_name_in_owner = true
 position = Vector2(286, 363)
@@ -298,14 +322,15 @@ position = Vector2(286, 363)
 libraries = {
 "": SubResource("AnimationLibrary_d27tr")
 }
-autoplay = "roll"
+autoplay = "idle"
 speed_scale = 1.812
+script = SubResource("GDScript_qi5yj")
 
 [node name="GooseDive1" type="Sprite2D" parent="Node2D/Player"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_tfvkg")
 position = Vector2(-1, -6)
-texture = ExtResource("5_3ejog")
+texture = ExtResource("11_j7vxl")
 
 [node name="RigidBody2D" type="StaticBody2D" parent="Node2D/Player"]
 
@@ -335,6 +360,7 @@ script = SubResource("GDScript_ouwri")
 tiling = 2
 
 [node name="Tile" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
+tiling = 8
 
 [node name="Area2D" type="Area2D" parent="Node2D/World/Node2D/Tile"]
 position = Vector2(168.96, -55.2041)
@@ -356,6 +382,7 @@ volume_db = 18.28
 
 [node name="Tile2" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 position = Vector2(1539, 282)
+tiling = 8
 tiling_offset = 1
 
 [node name="Plane" parent="Node2D/World/Node2D/Tile2" instance=ExtResource("18_uxp0k")]
@@ -368,7 +395,7 @@ position = Vector2(3163, 282)
 scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
 script = SubResource("GDScript_2by4p")
-tiling = 6
+tiling = 8
 tiling_offset = 2
 
 [node name="HappyMountains2" type="Sprite2D" parent="Node2D/World/Node2D/Tile3"]
@@ -533,6 +560,7 @@ frame = 2
 
 [node name="Tile4" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 position = Vector2(4787, 282)
+tiling = 8
 tiling_offset = 3
 
 [node name="Stoppsnubbe" parent="Node2D/World/Node2D/Tile4" instance=ExtResource("22_oggd6")]
@@ -544,7 +572,7 @@ position = Vector2(6483, 282)
 scale = Vector2(3.125, 2.75342)
 texture = SubResource("NoiseTexture2D_3fhlx")
 script = SubResource("GDScript_2by4p")
-tiling = 6
+tiling = 8
 tiling_offset = 4
 
 [node name="HappyMountains2" type="Sprite2D" parent="Node2D/World/Node2D/Tile5"]
@@ -709,7 +737,33 @@ frame = 2
 
 [node name="Tile6" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 position = Vector2(8083, 282)
+tiling = 8
 tiling_offset = 5
+
+[node name="Tile7" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
+position = Vector2(8083, 282)
+tiling = 8
+tiling_offset = 6
+
+[node name="Tile8" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
+position = Vector2(8083, 282)
+tiling = 8
+tiling_offset = 7
+
+[node name="Frame" type="Node2D" parent="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Frame"]
+z_index = 5
+position = Vector2(-5920, -3528)
+scale = Vector2(37.5, 10128)
+texture = SubResource("GradientTexture1D_3rtwl")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D/Frame"]
+z_index = 5
+position = Vector2(10672, -3528)
+scale = Vector2(37.5, 10128)
+texture = SubResource("GradientTexture1D_3rtwl")
+flip_h = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -744,7 +798,10 @@ hframes = 4
 vframes = 4
 script = ExtResource("19_6c8ht")
 
+[connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="flap"]
 [connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="decrease_to"]
+[connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="dive"]
 [connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="fill"]
+[connection signal="on_hit_ground" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="roll"]
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile/Area2D" to="Node2D/World/Node2D/Tile/Area2D" method="hit"]

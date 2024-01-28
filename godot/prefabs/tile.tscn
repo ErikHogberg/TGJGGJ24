@@ -36,7 +36,7 @@ func _process(delta):
 	var left = x - halfWidth
 	var right = x + halfWidth
 	
-	if right < -width :
+	if right < -width*3.0 :
 		global_position.x += width * tiling
 		#print(\"moved\")
 

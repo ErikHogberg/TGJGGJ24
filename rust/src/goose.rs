@@ -64,7 +64,7 @@ impl INode2D for Goose {
             shoot_vel: Vector2::new(99.0, 9.0),
             velocity_cap: Vector2::ZERO,
             hit_ground_once: false,
-            paused: false,
+            paused: true,
             stamina: 12,
             base,
         }
@@ -87,6 +87,7 @@ impl INode2D for Goose {
                     self.velocity.y = -self.shoot_vel.y;
                     self.velocity.x += self.shoot_vel.x;
                     let stamina = self.stamina;
+                    self.hit_ground_once = false;
                     self.base_mut()
                         .emit_signal("on_consume_one_stamina_and_flap".into(), &[Variant::from(stamina)]);
                 } else {

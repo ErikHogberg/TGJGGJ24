@@ -1,5 +1,8 @@
 extends Area2D
 
+func _ready():
+	hide_goose()
+
 func show_goose():
 	$SittingGoose.show()
 	monitoring = true

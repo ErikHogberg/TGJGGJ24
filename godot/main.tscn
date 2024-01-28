@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://c4uw85k4jqmyf"]
+[gd_scene load_steps=71 format=3 uid="uid://c4uw85k4jqmyf"]
 
 [ext_resource type="Animation" uid="uid://brrftspysqxeq" path="res://gfx/gooseDive/gooseDive.anim" id="1_37aqj"]
 [ext_resource type="PackedScene" uid="uid://dqekr6jy38iai" path="res://shoot_text.tscn" id="1_amu7x"]
@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://bunuk6smin1th" path="res://gfx/Happy_mountain2.bmp" id="21_3gu6d"]
 [ext_resource type="Script" path="res://prefabs/tileScript.tres.gd" id="21_7br8w"]
 [ext_resource type="Texture2D" uid="uid://c3veppqgtdc1h" path="res://gfx/Stoppsnubbe.png" id="24_sh636"]
+[ext_resource type="Texture2D" uid="uid://bnpo0j4mb4mnj" path="res://gfx/Atmoshpere.png" id="26_217pi"]
 
 [sub_resource type="GDScript" id="GDScript_xo3ya"]
 script/source = "extends Camera2D
@@ -823,6 +824,10 @@ hframes = 4
 vframes = 3
 frame = 2
 
+[node name="Atmoshpere" type="Sprite2D" parent="Node2D/World/Node2D/Tile3"]
+position = Vector2(-9.53674e-07, -1443.3)
+texture = ExtResource("26_217pi")
+
 [node name="Tile4" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 position = Vector2(4787, 282)
 tiling = 8
@@ -1016,6 +1021,10 @@ hframes = 4
 vframes = 3
 frame = 2
 
+[node name="Atmoshpere" type="Sprite2D" parent="Node2D/World/Node2D/Tile5"]
+position = Vector2(-9.53674e-07, -1443.3)
+texture = ExtResource("26_217pi")
+
 [node name="Tile6" parent="Node2D/World/Node2D" instance=ExtResource("12_t344k")]
 position = Vector2(8083, 282)
 tiling = 8
@@ -1065,8 +1074,8 @@ layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
+offset_left = 224.0
+offset_right = 264.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
@@ -1079,7 +1088,12 @@ hframes = 4
 vframes = 4
 script = ExtResource("19_6c8ht")
 
+[connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="flap"]
+[connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="decrease_to"]
+[connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="dive"]
+[connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="fill"]
 [connection signal="on_hit_ground" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="roll"]
+[connection signal="on_restart" from="Node2D/Player" to="Node2D/World" method="reset_pos"]
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile/goose" to="Node2D/World/Node2D/Tile/goose" method="hit"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile2/Plane/Area2D" to="Node2D/World/Node2D/Tile2/Plane/Area2D" method="_on_body_entered"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://sx2wmc23ngv4"]
+[gd_scene load_steps=9 format=3 uid="uid://sx2wmc23ngv4"]
 
 [ext_resource type="Texture2D" uid="uid://c477rhxxb6w1t" path="res://gfx/Happy_mountains.bmp" id="1_npxhd"]
 [ext_resource type="Script" path="res://prefabs/tileScript.tres.gd" id="1_qayoe"]
 [ext_resource type="Texture2D" uid="uid://dpb6i0dwia14l" path="res://gfx/Goose_sky.bmp" id="2_o8h54"]
 [ext_resource type="Texture2D" uid="uid://bcgp3ctw68fgh" path="res://gfx/Goose_tilesheet.png" id="3_t72or"]
+[ext_resource type="Texture2D" uid="uid://bnpo0j4mb4mnj" path="res://gfx/Atmoshpere.png" id="5_r8gty"]
 
 [sub_resource type="Gradient" id="Gradient_athk4"]
 offsets = PackedFloat32Array(0, 0.403614, 0.855422, 1)
@@ -184,3 +185,7 @@ texture = ExtResource("3_t72or")
 hframes = 4
 vframes = 3
 frame = 2
+
+[node name="Atmoshpere" type="Sprite2D" parent="."]
+position = Vector2(-9.53674e-07, -1443.3)
+texture = ExtResource("5_r8gty")

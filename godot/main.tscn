@@ -315,6 +315,18 @@ _data = {
 "Charge3": SubResource("Animation_ph45w")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_prm7r"]
+random_pitch = 1.54
+streams_count = 4
+stream_0/stream = ExtResource("13_8c7in")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("14_tqoce")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("15_q4bv1")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("16_4oxp1")
+stream_3/weight = 1.0
+
 [sub_resource type="GDScript" id="GDScript_ouwri"]
 script/source = "extends Node2D
 
@@ -356,18 +368,6 @@ shader = ExtResource("2_0k8r8")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sjmup"]
 radius = 112.0
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_prm7r"]
-random_pitch = 1.54
-streams_count = 4
-stream_0/stream = ExtResource("13_8c7in")
-stream_0/weight = 1.0
-stream_1/stream = ExtResource("14_tqoce")
-stream_1/weight = 1.0
-stream_2/stream = ExtResource("15_q4bv1")
-stream_2/weight = 1.0
-stream_3/stream = ExtResource("16_4oxp1")
-stream_3/weight = 1.0
 
 [sub_resource type="GDScript" id="GDScript_5enij"]
 script/source = "extends Area2D
@@ -601,6 +601,10 @@ root_node = NodePath("../../../..")
 libraries = {
 "": SubResource("AnimationLibrary_rcq5f")
 }
+
+[node name="GooseSoundHitLaunch" type="AudioStreamPlayer" parent="Node2D/World/GooseCanonSpritesheet"]
+stream = SubResource("AudioStreamRandomizer_prm7r")
+volume_db = 18.28
 
 [node name="Node2D" type="Node2D" parent="Node2D/World"]
 script = SubResource("GDScript_ouwri")
@@ -1075,12 +1079,7 @@ hframes = 4
 vframes = 4
 script = ExtResource("19_6c8ht")
 
-[connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="flap"]
-[connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="decrease_to"]
-[connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="dive"]
-[connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="fill"]
 [connection signal="on_hit_ground" from="Node2D/Player" to="Node2D/Player/AnimationPlayer" method="roll"]
-[connection signal="on_restart" from="Node2D/Player" to="Node2D/World" method="reset_pos"]
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile/goose" to="Node2D/World/Node2D/Tile/goose" method="hit"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile2/Plane/Area2D" to="Node2D/World/Node2D/Tile2/Plane/Area2D" method="_on_body_entered"]

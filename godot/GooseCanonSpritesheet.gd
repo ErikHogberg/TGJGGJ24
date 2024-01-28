@@ -26,6 +26,7 @@ func _process(delta):
 		hasDuckBeenLaunched = true;
 		$CannonAnimations.stop();
 		_AnimShootCannon();
+		$GooseSoundHitLaunch.play();
 	pass
 
 
@@ -59,25 +60,25 @@ func _AnimCannon():
 
 func _AnimChargeCannon():
 	match cannonAim:
-		1:
+		0:
 			$CannonAnimations.play("Charge3")
-		2:
+		1:
 			$CannonAnimations.play("Charge2")
-		3:
+		2:
 			$CannonAnimations.play("Charge1")
-		4:
+		3:
 			$CannonAnimations.play("Charge0")
 	pass
 
 
 func _AnimShootCannon():
 	match cannonAim:
-		1:
+		0:
 			$CannonAnimations.play("CannonShoot3")
-		2:
+		1:
 			$CannonAnimations.play("CannonShoot2")
-		3:
+		2:
 			$CannonAnimations.play("CannonShoot1")
-		4:
+		3:
 			$CannonAnimations.play("CannonShoot0")
 	pass

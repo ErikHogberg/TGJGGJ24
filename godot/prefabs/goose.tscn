@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3 uid="uid://diamlf041u11d"]
+
+[ext_resource type="Shader" uid="uid://b88uqnyohcr48" path="res://gfx/main.tres" id="1_bdidu"]
+[ext_resource type="Texture2D" uid="uid://b16ic1nhf5fi8" path="res://gfx/gooseIdle/Goose_idle.bmp" id="2_20j0o"]
+[ext_resource type="AudioStream" uid="uid://sy2xpmt158si" path="res://gfx/gooseIdle/Goose1.wav" id="3_nj8ms"]
+[ext_resource type="AudioStream" uid="uid://bi160p5gmv6hh" path="res://gfx/gooseIdle/Goose3.wav" id="4_ooyju"]
+[ext_resource type="AudioStream" uid="uid://b378454a8kwb7" path="res://gfx/gooseIdle/Goose4.wav" id="5_ejxco"]
+[ext_resource type="AudioStream" uid="uid://b6bdij2n3mu8i" path="res://gfx/gooseIdle/Goose5.wav" id="6_j0jgp"]
+
+[sub_resource type="GDScript" id="GDScript_jmw4m"]
+script/source = "extends Area2D
+
+func show():
+	
+
+func hit(asdf):
+	print(\"hit\")
+	%Player.pause()
+	$GooseSoundHit.play()
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wu5l"]
+shader = ExtResource("1_bdidu")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sjmup"]
+radius = 112.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_prm7r"]
+random_pitch = 1.54
+streams_count = 4
+stream_0/stream = ExtResource("3_nj8ms")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_ooyju")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("5_ejxco")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("6_j0jgp")
+stream_3/weight = 1.0
+
+[node name="goose" type="Area2D"]
+position = Vector2(168.96, -55.2041)
+scale = Vector2(0.32, 0.363185)
+input_pickable = false
+script = SubResource("GDScript_jmw4m")
+
+[node name="SittingGoose" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_7wu5l")
+texture = ExtResource("2_20j0o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sjmup")
+
+[node name="GooseSoundHit" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_prm7r")
+volume_db = 18.28
+
+[connection signal="body_entered" from="." to="." method="hit"]

@@ -10,5 +10,10 @@ func decrease():
 	if frame> 12:
 		frame = 12
 
+func decrease_to(amount):
+	frame= 12 - amount
+	if frame> 12:
+		frame = 12
+
 func fill():
 	frame = 0

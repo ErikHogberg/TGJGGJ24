@@ -359,6 +359,7 @@ position = Vector2(1539, 282)
 tiling_offset = 1
 
 [node name="Plane" parent="Node2D/World/Node2D/Tile2" instance=ExtResource("18_uxp0k")]
+position = Vector2(145.92, -778.668)
 
 [node name="Tile3" type="Sprite2D" parent="Node2D/World/Node2D"]
 z_index = -2
@@ -743,5 +744,7 @@ hframes = 4
 vframes = 4
 script = ExtResource("19_6c8ht")
 
+[connection signal="on_consume_one_stamina_and_flap" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="decrease_to"]
+[connection signal="on_fill_stamina_and_bounce" from="Node2D/Player" to="CanvasLayer/Control/GooseStaminabar" method="fill"]
 [connection signal="x_vel_update" from="Node2D/Player" to="Node2D/World" method="set_x_vel"]
 [connection signal="body_entered" from="Node2D/World/Node2D/Tile/Area2D" to="Node2D/World/Node2D/Tile/Area2D" method="hit"]
